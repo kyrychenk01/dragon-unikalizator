@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>Унікалізатор DRAGON TRAFIC</title>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:dark;--bg:#000;--card:rgba(10,10,10,.72);--text:#fff;--muted:#9a9a9a;--line:#333;--glow:rgba(255,255,255,.18);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}
+html{background:#000}
+body{margin:0;background:transparent;color:var(--text);font-family:"Rubik",system-ui,-apple-system,"Segoe UI",sans-serif;padding:18px;min-height:100vh}
+#sky{position:fixed;inset:0;width:100%;height:100%;z-index:-1;background:radial-gradient(ellipse at 50% 120%,#1a1a1a 0%,#000 60%)}
+.w{max-width:920px;margin:0 auto}
+header{text-align:center;padding:28px 0 22px;animation:rise .9s ease both}
+.logo{width:96px;height:125px;margin:0 auto 14px;display:block;animation:float 5s ease-in-out infinite;filter:drop-shadow(0 0 14px rgba(255,255,255,.55))}
+.logo svg,.logo img{width:100%;height:100%;object-fit:contain}
+h1{margin:0;font-weight:900;letter-spacing:.06em;text-transform:uppercase;font-size:clamp(26px,6vw,46px);line-height:1.05;background:linear-gradient(110deg,#777 20%,#fff 45%,#777 70%);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 4s linear infinite}
+h1 b{display:block;font-weight:300;letter-spacing:.5em;font-size:.5em;margin-top:6px}
+p.s{color:var(--muted);margin:12px 0 0;font-size:14px;font-weight:300}
+.card{background:var(--card);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:16px;transition:border-color .3s,box-shadow .3s;animation:rise .9s ease both}
+.card:hover{border-color:#777;box-shadow:0 0 28px var(--glow)}
+.card:nth-of-type(2){animation-delay:.1s}.card:nth-of-type(3){animation-delay:.2s}.card:nth-of-type(4){animation-delay:.3s}
+canvas#cv{width:100%;max-height:60vh;background:#000;border-radius:10px;display:block;object-fit:contain;border:1px solid var(--line)}
+.g{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px 22px}
+label{font-size:13px;display:block;font-weight:400}
+label span{float:right;color:var(--muted)}
+input[type=range]{width:100%;accent-color:#fff}
+input[type=file]{color:var(--muted);font-family:inherit;font-size:14px;width:100%}
+input[type=file]::file-selector-button{background:#fff;color:#000;border:0;border-radius:8px;padding:10px 16px;margin-right:12px;font-family:inherit;font-weight:500;cursor:pointer;transition:transform .2s}
+input[type=file]::file-selector-button:hover{transform:scale(1.05)}
+.r{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:12px}
+button,.f{font-family:inherit;background:#fff;color:#000;border:0;border-radius:8px;padding:11px 16px;font-size:14px;font-weight:500;cursor:pointer;transition:transform .2s,box-shadow .2s}
+button:hover:not(:disabled),.f:hover{transform:translateY(-2px);box-shadow:0 0 20px rgba(255,255,255,.45)}
+button.o{background:transparent;color:#fff;border:1px solid #666}
+button:disabled{opacity:.35;cursor:default}
+#st{font-size:13px;color:var(--muted);font-weight:300}
+footer{text-align:center;color:#555;font-size:12px;padding:10px 0 24px;letter-spacing:.3em;text-transform:uppercase}
+@keyframes shine{to{background-position:-220% 0}}
+@keyframes float{50%{transform:translateY(-8px)}}
+@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+</head>
+<body>
+<canvas id="sky"></canvas>
+<div class="w">
+<header>
+<div class="logo" id="logo">
+
+<img src="data:image/png;base64,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" alt="DRAGON TRAFIC">
+</div>
+<h1>Унікалізатор<b>DRAGON TRAFIC</b></h1>
+<p class="s">Усе працює у браузері, відео нікуди не завантажується</p>
+</header>
+
+<div class="card"><input type="file" id="file" accept="video/*"></div>
+
+<div class="card">
+<canvas id="cv" width="640" height="360"></canvas>
+<div class="r">
+<button id="play" class="o" disabled>Пуск / Пауза</button>
+<button id="rec" disabled>Обробити й зберегти</button>
+<span id="st">Оберіть відео</span>
+</div>
+</div>
+
+<div class="card">
+<div class="g" id="ctl"></div>
+<div class="r">
+<button class="o" id="rnd">Легка випадкова зміна</button>
+<button class="o" id="rst">Скинути</button>
+</div>
+</div>
+
+<div class="card" id="out" hidden>
+<a id="dl" class="f" style="text-decoration:none;display:inline-block">Завантажити результат</a>
+</div>
+<footer>Dragon Trafic</footer>
+</div>
+
+<script>
+window.FALLBACK_LOGO='<svg viewBox="0 0 64 64" fill="none" stroke="#fff" stroke-width="2.4" stroke-linejoin="round"><path d="M12 6 L24 22 L40 22 L52 6 L50 30 L57 41 L45 57 L32 61 L19 57 L7 41 L14 30 Z"/><path d="M19 37 L28 39 L22 44 Z M45 37 L36 39 L42 44 Z" fill="#fff"/><path d="M28 51 L32 47 L36 51" /><circle cx="30" cy="30" r="1.2" fill="#fff"/><circle cx="34" cy="30" r="1.2" fill="#fff"/></svg>';
+
+/* ===== космос ===== */
+var sk=$("sky"),sx=sk.getContext("2d"),stars=[],shoot=[],warp=1,warpT=1,W,H;
+function $(i){return document.getElementById(i)}
+function rs(){W=sk.width=innerWidth;H=sk.height=innerHeight}
+addEventListener("resize",rs);rs();
+for(var i=0;i<260;i++)stars.push({x:Math.random()*2-1,y:Math.random()*2-1,z:Math.random()});
+function sky(){
+  warp+=(warpT-warp)*0.04;
+  sx.clearRect(0,0,W,H);
+  var cx=W/2,cy=H/2;
+  stars.forEach(function(s){
+    var px=cx+s.x/s.z*W*0.12,py=cy+s.y/s.z*H*0.12;
+    s.z-=0.0009*warp;
+    if(s.z<=0.02||px<0||px>W||py<0||py>H){s.x=Math.random()*2-1;s.y=Math.random()*2-1;s.z=1;return}
+    var r=(1-s.z)*1.8+0.2,a=Math.min(1,(1-s.z)*1.3);
+    if(warp>3){
+      var qx=cx+s.x/(s.z+0.04*warp)*W*0.12,qy=cy+s.y/(s.z+0.04*warp)*H*0.12;
+      sx.strokeStyle="rgba(255,255,255,"+a+")";sx.lineWidth=r;sx.beginPath();sx.moveTo(qx,qy);sx.lineTo(px,py);sx.stroke();
+    }else{sx.fillStyle="rgba(255,255,255,"+a+")";sx.beginPath();sx.arc(px,py,r,0,6.283);sx.fill()}
+  });
+  if(Math.random()<0.012)shoot.push({x:Math.random()*W,y:Math.random()*H*0.5,vx:6+Math.random()*5,vy:2+Math.random()*3,l:1});
+  shoot=shoot.filter(function(m){
+    m.x+=m.vx;m.y+=m.vy;m.l-=0.012;
+    var g=sx.createLinearGradient(m.x,m.y,m.x-m.vx*12,m.y-m.vy*12);
+    g.addColorStop(0,"rgba(255,255,255,"+m.l+")");g.addColorStop(1,"rgba(255,255,255,0)");
+    sx.strokeStyle=g;sx.lineWidth=1.6;sx.beginPath();sx.moveTo(m.x,m.y);sx.lineTo(m.x-m.vx*12,m.y-m.vy*12);sx.stroke();
+    return m.l>0;
+  });
+  requestAnimationFrame(sky);
+}
+sky();
+
+/* ===== відео ===== */
+var P=[["brightness","Яскравість",100,85,115,1,"%"],["contrast","Контраст",100,85,115,1,"%"],["saturate","Насиченість",100,80,120,1,"%"],["hue","Відтінок",0,-10,10,1,"°"],["zoom","Збільшення (обрізання)",100,100,112,1,"%"],["speed","Швидкість",100,95,105,1,"%"]];
+var V={},cv=$("cv"),ctx=cv.getContext("2d");
+var vid=document.createElement("video");vid.playsInline=true;vid.loop=true;
+var ctl=$("ctl");
+P.forEach(function(p){
+  V[p[0]]=p[2];
+  var l=document.createElement("label");
+  l.innerHTML=p[1]+"<span id='v_"+p[0]+"'>"+p[2]+p[6]+"</span><input type='range' id='r_"+p[0]+"' min='"+p[3]+"' max='"+p[4]+"' step='"+p[5]+"' value='"+p[2]+"'>";
+  ctl.appendChild(l);
+  l.querySelector("input").oninput=function(e){set(p[0],+e.target.value)};
+});
+var mir=document.createElement("label");
+mir.innerHTML="<input type='checkbox' id='mirror'> Віддзеркалити по горизонталі";
+ctl.appendChild(mir);
+
+function set(k,v){
+  V[k]=v;
+  P.forEach(function(p){if(p[0]==k){$("v_"+k).textContent=v+p[6];$("r_"+k).value=v}});
+  if(k=="speed")vid.playbackRate=v/100;
+}
+$("rst").onclick=function(){P.forEach(function(p){set(p[0],p[2])});$("mirror").checked=false};
+$("rnd").onclick=function(){
+  P.forEach(function(p){
+    var span=(p[4]-p[3])/3,v=Math.round(p[2]+(Math.random()*2-1)*span*0.6);
+    if(p[0]=="zoom")v=102+Math.round(Math.random()*6);
+    set(p[0],Math.min(p[4],Math.max(p[3],v)));
+  });
+};
+
+function draw(){
+  var w=cv.width,h=cv.height;
+  ctx.save();
+  ctx.filter="brightness("+V.brightness+"%) contrast("+V.contrast+"%) saturate("+V.saturate+"%) hue-rotate("+V.hue+"deg)";
+  var z=V.zoom/100,sw=vid.videoWidth/z,sh=vid.videoHeight/z;
+  var ox=(vid.videoWidth-sw)/2,oy=(vid.videoHeight-sh)/2;
+  if($("mirror").checked){ctx.translate(w,0);ctx.scale(-1,1)}
+  if(vid.videoWidth)ctx.drawImage(vid,ox,oy,sw,sh,0,0,w,h);
+  ctx.restore();
+  requestAnimationFrame(draw);
+}
+requestAnimationFrame(draw);
+
+var ac,dest,src;
+$("file").onchange=function(e){
+  var f=e.target.files[0];if(!f)return;
+  vid.src=URL.createObjectURL(f);
+  vid.onloadedmetadata=function(){
+    var k=Math.min(1,1280/Math.max(vid.videoWidth,vid.videoHeight));
+    cv.width=Math.round(vid.videoWidth*k/2)*2;
+    cv.height=Math.round(vid.videoHeight*k/2)*2;
+    vid.playbackRate=V.speed/100;
+    vid.muted=true;vid.play();
+    $("play").disabled=false;$("rec").disabled=false;
+    $("st").textContent="Готово. Налаштуйте фільтри.";
+  };
+};
+$("play").onclick=function(){vid.paused?vid.play():vid.pause()};
+
+$("rec").onclick=function(){
+  try{
+    if(!ac){
+      ac=new (window.AudioContext||window.webkitAudioContext)();
+      src=ac.createMediaElementSource(vid);
+      dest=ac.createMediaStreamDestination();
+      src.connect(dest);
+    }
+    var stream=cv.captureStream(30);
+    dest.stream.getAudioTracks().forEach(function(t){stream.addTrack(t)});
+    var types=["video/mp4","video/webm;codecs=vp9,opus","video/webm"];
+    var mt=types.filter(function(t){return MediaRecorder.isTypeSupported(t)})[0]||"";
+    var mr=new MediaRecorder(stream,{mimeType:mt,videoBitsPerSecond:6000000});
+    var ch=[];
+    mr.ondataavailable=function(ev){if(ev.data.size)ch.push(ev.data)};
+    mr.onstop=function(){
+      var ext=mt.indexOf("mp4")>-1?"mp4":"webm";
+      var b=new Blob(ch,{type:mt||"video/webm"});
+      var a=$("dl");a.href=URL.createObjectURL(b);a.download="dragon_trafic."+ext;
+      $("out").hidden=false;warpT=1;
+      vid.loop=true;$("st").textContent="Готово, завантажте файл нижче.";
+      $("rec").disabled=false;
+    };
+    vid.loop=false;vid.currentTime=0;
+    vid.onended=function(){if(mr.state=="recording")mr.stop();vid.onended=null};
+    ac.resume();
+    $("rec").disabled=true;$("out").hidden=true;warpT=7;
+    $("st").textContent="Йде запис у реальному часі, не закривайте вкладку…";
+    mr.start();vid.play();
+  }catch(err){$("st").textContent="Помилка: "+err.message;$("rec").disabled=false;warpT=1}
+};
+</script>
+</body>
+</html>
